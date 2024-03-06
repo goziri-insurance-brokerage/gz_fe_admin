@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  @apply text-[#242424] bg-[#F9F9F9];
+}
+
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+body {
+}
+
+.page-spacing {
+  @apply px-4 md:px-10;
+}
+
+.table-scroll-bar::-webkit-scrollbar {
+  @apply w-1 h-1 rounded-full bg-grey-light;
+}
+.table-scroll-bar::-webkit-scrollbar-thumb {
+  @apply rounded-full bg-grey-light_active;
+}
+
+.page-scroll-bar::-webkit-scrollbar {
+  @apply w-1 h-1 rounded-full bg-grey-light;
+}
+.page-scroll-bar::-webkit-scrollbar-thumb {
+  @apply rounded-full bg-grey-light_active;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
