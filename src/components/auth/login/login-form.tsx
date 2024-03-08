@@ -41,13 +41,13 @@ export default function LoginForm() {
     }
   };
 
-  const handleForm = useFormSubmit(
+  const submitForm = useFormSubmit(
     ["password", "identifier"],
     handleFormSubmit
   );
 
   return (
-    <form action="" onSubmit={handleForm} className="grid gap-5">
+    <form action="" onSubmit={submitForm} className="grid gap-5">
       <Input
         id="login-form-indentifier"
         label="Username/ Email Address"

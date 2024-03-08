@@ -1,4 +1,4 @@
-import AdminsList from "@/components/main/admins/admins-list";
+import AdminsList from "@/components/main/admins/admins-list/admins-list";
 import React from "react";
 
 export default function page() {

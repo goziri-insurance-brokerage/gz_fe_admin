@@ -12,9 +12,6 @@ import { FetchHmoListParams } from "@/@Types/hmo.interface";
 
 import {
   Input,
-  MobileTable,
-  MobileTableItem,
-  MobileTableRow,
   Pagination,
   Table,
   TableBody,
@@ -110,19 +107,6 @@ export default function HmoList() {
             ))}
           </TableBody>
         </Table>
-
-        <MobileTable className="sm:hidden">
-          {[...Array(1)].map((_, i) => (
-            <MobileTableRow key={i}>
-              <MobileTableItem heading="Name">John Doe</MobileTableItem>
-              <MobileTableItem heading="Gender">Male</MobileTableItem>
-              <MobileTableItem heading="Organization">
-                Sample Organization
-              </MobileTableItem>
-              <MobileTableItem heading="HMO">Sample HMO</MobileTableItem>
-            </MobileTableRow>
-          ))}
-        </MobileTable>
       </div>
 
       {data?.items?.length && (

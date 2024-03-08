@@ -10,7 +10,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
   return (
     <div className="grid h-screen w-screen overflow-hidden lg:grid-cols-2">
       <div className="bg-[#ECF2FC] h-full p-8 hidden lg:grid">
-        <div className="grid gap-11 grid-rows-[auto_1fr_auto] h-full content-">
+        <div className="grid gap-11 grid-rows-[auto_1fr_auto] h-full">
           <div className="w-32">
             <Logo fill />
           </div>
@@ -24,10 +24,10 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
             />
           </div>
           <div className="text-center grid gap-1">
-            <h1 className="font-bold text-[#005AFF] text-4xl">HMO Dashboard</h1>
-            <p className="text-xl">
-              Manage and organize Goziri Insurance Portals
-            </p>
+            <h1 className="font-bold text-[#005AFF] text-4xl">
+              Admin Dashboard
+            </h1>
+            <p className="text-xl">Manage and organize Goziri Insurance.</p>
           </div>
         </div>
       </div>

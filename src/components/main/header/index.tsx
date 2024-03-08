@@ -40,7 +40,6 @@ export default function Header() {
           <LogoIcon size={38} />
         </span>
         <h1 className="text-lg font-bold capitalize lg:hidden">{path}</h1>
-        <h1 className={`text-lg font-bold capitalize`}>{path}</h1>
       </div>
 
       <div className="grid grid-flow-col w-max items-center gap-3">
