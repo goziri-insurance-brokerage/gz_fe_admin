@@ -4,7 +4,7 @@ import React from "react";
 export default function NoDataFound() {
   return (
     <div className="grid content-center justify-items-center">
-      <div className="relative w-80">
+      <div className="relative w-64 sm:w-80">
         <Image
           src={"/assets/no-data.svg"}
           alt="No Data Found Illustration"
@@ -12,7 +12,7 @@ export default function NoDataFound() {
           height={1000}
         />
       </div>
-      <p className="font-semibold text-xl">Oops! No data found</p>
+      <p className="font-semibold text-lg sm:text-xl">Oops! No data found</p>
     </div>
   );
 }

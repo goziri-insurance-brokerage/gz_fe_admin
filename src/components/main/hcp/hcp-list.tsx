@@ -12,6 +12,9 @@ import { FetchHcpListParams } from "@/@Types/hcp.interface";
 import { setHcp } from "@/store/slices/hcp.slice";
 import {
   Input,
+  MobileTable,
+  MobileTableItem,
+  MobileTableRow,
   Pagination,
   Table,
   TableBody,
@@ -75,6 +78,7 @@ export default function HcpList() {
           placeholder="Search by Name, UID, Status"
         />
 
+        {/* Desktop Table */}
         <Table
           noData={{
             component: <NoDataFound />,
@@ -106,9 +110,40 @@ export default function HcpList() {
             ))}
           </TableBody>
         </Table>
+
+        {/* Mobile Table */}
+        <MobileTable
+          className="sm:hidden"
+          isLoading={!data}
+          noData={{
+            component: <NoDataFound />,
+            condition: !data?.items.length,
+          }}
+        >
+          {data?.items.map((d, i) => (
+            <MobileTableRow key={i}>
+              <MobileTableItem heading={HCP_TABLE_HEADERS[0]}>
+                {d.name}
+              </MobileTableItem>
+              <MobileTableItem heading={HCP_TABLE_HEADERS[1]}>
+                {d.address.state}
+              </MobileTableItem>
+              <MobileTableItem heading={HCP_TABLE_HEADERS[2]}>
+                {d.address.lga}
+              </MobileTableItem>
+              <MobileTableItem heading={HCP_TABLE_HEADERS[3]}>
+                {" "}
+                {d.reg_number}
+              </MobileTableItem>
+              <MobileTableItem heading={HCP_TABLE_HEADERS[4]}>
+                {formatDate(d.created_at)}
+              </MobileTableItem>
+            </MobileTableRow>
+          ))}
+        </MobileTable>
       </div>
 
-      {data?.items?.length && (
+      {data?.items?.length ? (
         <div className="w-max mx-auto">
           <Pagination
             currentPage={data.meta.currentPage}
@@ -118,6 +153,8 @@ export default function HcpList() {
             totalPages={data?.meta.totalPages ?? 0}
           />
         </div>
+      ) : (
+        <></>
       )}
     </div>
   );

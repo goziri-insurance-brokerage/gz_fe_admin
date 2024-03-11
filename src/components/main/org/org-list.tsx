@@ -12,6 +12,9 @@ import { FetchOrgListParams } from "@/@Types/org.interface";
 
 import {
   Input,
+  MobileTable,
+  MobileTableItem,
+  MobileTableRow,
   Pagination,
   Table,
   TableBody,
@@ -23,6 +26,7 @@ import {
 } from "@/ui";
 import NoDataFound from "./no-data-found";
 import { ORG_TABLE_HEADERS } from "@/constants/org.constants";
+import { normalizeEnum } from "@/utils/formatter.utils";
 
 export default function OrgList() {
   const dispatch = useDispatch();
@@ -99,21 +103,59 @@ export default function OrgList() {
             {data?.items.map((d, i) => (
               <TableRow key={i}>
                 <TableData>{d.name}</TableData>
-                <TableData> {d.org_type}</TableData>
+                <TableData> {normalizeEnum(d.org_type)}</TableData>
                 <TableData> {d.reg_number}</TableData>
                 <TableData>{d.address.state}</TableData>
                 <TableData>{d.address.lga}</TableData>
                 <TableData>{formatDate(d.created_at)}</TableData>
                 <TableData>
+                  {d.created_by === null && "Super Admin"}
                   {d.created_by?.first_name} {d.created_by?.last_name}
                 </TableData>
               </TableRow>
             ))}
           </TableBody>
         </Table>
+
+        {/* Mobile Table */}
+        <MobileTable
+          className="sm:hidden"
+          isLoading={!data}
+          noData={{
+            component: <NoDataFound />,
+            condition: !data?.items.length,
+          }}
+        >
+          {data?.items.map((d, i) => (
+            <MobileTableRow key={i}>
+              <MobileTableItem heading={ORG_TABLE_HEADERS[0]}>
+                {d.name}
+              </MobileTableItem>
+              <MobileTableItem heading={ORG_TABLE_HEADERS[1]}>
+                {normalizeEnum(d.org_type)}
+              </MobileTableItem>
+              <MobileTableItem heading={ORG_TABLE_HEADERS[2]}>
+                {d.reg_number}
+              </MobileTableItem>
+              <MobileTableItem heading={ORG_TABLE_HEADERS[3]}>
+                {d.address.state}
+              </MobileTableItem>
+              <MobileTableItem heading={ORG_TABLE_HEADERS[4]}>
+                {d.address.lga}
+              </MobileTableItem>
+              <MobileTableItem heading={ORG_TABLE_HEADERS[5]}>
+                {formatDate(d.created_at)}
+              </MobileTableItem>
+              <MobileTableItem heading={ORG_TABLE_HEADERS[6]}>
+                {d.created_by === null && "Super Admin"}
+                {d.created_by?.first_name} {d.created_by?.last_name}
+              </MobileTableItem>
+            </MobileTableRow>
+          ))}
+        </MobileTable>
       </div>
 
-      {data?.items?.length && (
+      {data?.items?.length ? (
         <div className="w-max mx-auto">
           <Pagination
             currentPage={data.meta.currentPage}
@@ -123,6 +165,8 @@ export default function OrgList() {
             totalPages={data?.meta.totalPages ?? 0}
           />
         </div>
+      ) : (
+        <></>
       )}
     </div>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { PaginationButton } from "./pagination-button";
 import { ArrowLeft } from "../icons/arrow-left";
 import { ArrowRight } from "../icons/arrow-right";
@@ -22,19 +22,34 @@ export function Pagination({
   totalItems,
   totalPages,
 }: Props) {
-  const [range, setRange] = useState(1);
+  const [pages, setPages] = useState<number[]>([]);
+  const [range, setRange] = useState<number>(0);
 
-  const increasePageRange = (increment: number) => {
-    if (totalPages - 5 === range - 1) return;
-    range - 1 + increment > totalPages - 5
-      ? setRange(range + 1)
-      : setRange(range + increment);
+  const increasePages = (increment: number) => {
+    if (pages[range - 1] >= totalPages) return;
+    const newPages = pages.map((page) => page + increment);
+    setPages(newPages);
   };
 
-  const decreasePageRange = (decrement: number) => {
-    if (range === 1) return;
-    range - decrement < 1 ? setRange(range - 1) : setRange(range - decrement);
+  const decreasePages = (decrement: number) => {
+    if (pages[0] <= 1) return;
+    const newPages = pages.map((page) => page - decrement);
+    setPages(newPages);
   };
+
+  const getDefaultRange = useMemo(() => {
+    const defaultRange: number[] = [];
+
+    for (let index = 1; index <= range; index++) {
+      defaultRange.push(index);
+    }
+
+    setPages(defaultRange);
+  }, [range]);
+
+  useEffect(() => {
+    setRange(Math.min(totalPages, 4));
+  }, [totalPages]);
 
   return (
     <div className="grid grid-flow-col w-max gap-3 items-center relative">
@@ -50,40 +65,29 @@ export function Pagination({
       </div>
 
       <div className={`grid grid-flow-col gap-3 items-center w-max`}>
-        <PaginationButton onClick={() => decreasePageRange(1)} active={false}>
+        <PaginationButton onClick={() => decreasePages(1)} active={false}>
           <ArrowLeft size={10} color={"#9C9C9C"} />
         </PaginationButton>
 
-        {[...Array(totalPages)].map(
-          (_, i) =>
-            ((i + 1 >= range && i + 1 <= range + 3) ||
-              i + 1 === totalPages) && (
-              <PaginationButton
-                key={i}
-                active={
-                  i + 1 === range + 3
-                    ? i + 1 === totalPages - 1 &&
-                      (i + 1 === currentPage ? true : false)
-                    : i + 1 === currentPage
-                    ? true
-                    : false
-                }
-                onClick={() =>
-                  i + 1 === range + 3
-                    ? i + 1 === totalPages - 1 && onChangePage(i + 1)
-                    : onChangePage(i + 1)
-                }
-              >
-                {i + 1 === range + 3
-                  ? i + 1 === totalPages - 1
-                    ? i + 1
-                    : "..."
-                  : i + 1}
-              </PaginationButton>
-            )
-        )}
+        <div className="grid grid-flow-col w-max gap-3">
+          {pages.map((page, i) => (
+            <PaginationButton
+              key={i}
+              active={currentPage === page}
+              onClick={() => onChangePage(page)}
+            >
+              {page < range
+                ? page
+                : i < range - 1
+                ? page
+                : page === totalPages
+                ? page
+                : "..."}
+            </PaginationButton>
+          ))}
+        </div>
 
-        <PaginationButton onClick={() => increasePageRange(1)} active={false}>
+        <PaginationButton onClick={() => increasePages(1)} active={false}>
           <ArrowRight size={17} color={"#9C9C9C"} />
         </PaginationButton>
       </div>

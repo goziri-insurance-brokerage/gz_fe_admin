@@ -7,8 +7,12 @@ interface Props {
 export function MobileTableItem({ children, heading }: Props) {
   return (
     <div className={`grid gap-1`}>
-      <p className={`text-xs text-grey-normal`}>{heading}</p>
-      <p className={`text-sm text-[#242424] font-semibold`}>{children}</p>
+      <p className={`text-xs xs:text-sm text-grey-normal`}>{heading}</p>
+      <p
+        className={`text-sm xs:text-base text-[#242424] font-semibold whitespace-nowrap`}
+      >
+        {children}
+      </p>
     </div>
   );
 }

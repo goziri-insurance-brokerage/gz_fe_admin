@@ -3,6 +3,9 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   Input,
+  MobileTable,
+  MobileTableItem,
+  MobileTableRow,
   Pagination,
   Table,
   TableBody,
@@ -23,8 +26,9 @@ import { useLazyFetchContractListQuery } from "@/apis/contract.api";
 import { FetchContractsListParams } from "@/@Types/contract.interface";
 import { setContracts } from "@/store/slices/contracts.slice";
 import { AsyncFunction } from "@/@Types";
+import { formatAmount } from "@/utils/number.utils";
 
-export default function ContractsListTable() {
+export default function ContractsList() {
   const dispatch = useDispatch();
   const { callToast } = useToast();
   const data = useSelector((state: RootState) => state.contracts.data);
@@ -75,13 +79,14 @@ export default function ContractsListTable() {
           placeholder="Search by Name, UID, Status"
         />
 
+        {/* Desktop Table */}
         <Table
+          className="hidden sm:block"
           noData={{
             component: <NoDataFound />,
             condition: !data?.items.length,
           }}
           isLoading={!data}
-          className="hidden sm:block"
         >
           <TableHeader>
             {CONTRACTS_TABLE_HEADER.map((head, i) => (
@@ -101,7 +106,9 @@ export default function ContractsListTable() {
                   {d.user.first_name} {d.user.last_name}
                 </TableData>
                 <TableData>{normalizeEnum(d.policy_product.name)}</TableData>
-                <TableData>{d.policy_product.premium_cost}</TableData>
+                <TableData>
+                  {formatAmount(d.policy_product.premium_cost)}
+                </TableData>
                 <TableData>{formatDate(d.start_date)}</TableData>
                 <TableData> {formatDate(d.end_date)}</TableData>
                 <TableData>{normalizeEnum(d.org?.name)}</TableData>
@@ -123,9 +130,55 @@ export default function ContractsListTable() {
             ))}
           </TableBody>
         </Table>
+
+        {/* Mobile Table */}
+        <MobileTable
+          className="sm:hidden"
+          isLoading={!data}
+          noData={{
+            component: <NoDataFound />,
+            condition: !data?.items.length,
+          }}
+        >
+          {data?.items.map((d, i) => (
+            <MobileTableRow key={i}>
+              <MobileTableItem heading={CONTRACTS_TABLE_HEADER[0]}>
+                {d.user.first_name} {d.user.last_name}
+              </MobileTableItem>
+              <MobileTableItem heading={CONTRACTS_TABLE_HEADER[1]}>
+                {normalizeEnum(d.policy_product.name)}
+              </MobileTableItem>
+              <MobileTableItem heading={CONTRACTS_TABLE_HEADER[2]}>
+                {formatAmount(d.policy_product.premium_cost)}
+              </MobileTableItem>
+              <MobileTableItem heading={CONTRACTS_TABLE_HEADER[3]}>
+                {formatDate(d.start_date)}
+              </MobileTableItem>
+              <MobileTableItem heading={CONTRACTS_TABLE_HEADER[4]}>
+                {formatDate(d.end_date)}
+              </MobileTableItem>
+              <MobileTableItem heading={CONTRACTS_TABLE_HEADER[5]}>
+                {normalizeEnum(d.org?.name)}
+              </MobileTableItem>
+              <MobileTableItem heading={CONTRACTS_TABLE_HEADER[6]}>
+                <span
+                  className={`block text-center w-20 p-1 rounded-full text-xs capitalize ${
+                    d.status === "ACTIVE"
+                      ? "text-green-normal bg-green-light"
+                      : d.status === "UPCOMING"
+                      ? "text-orange-normal bg-orange-light"
+                      : d.status === "EXPIRED" && "text-red-normal bg-red-light"
+                  } `}
+                >
+                  {normalizeEnum(d.status)}
+                </span>
+              </MobileTableItem>
+            </MobileTableRow>
+          ))}
+        </MobileTable>
       </div>
 
-      {data?.items?.length && (
+      {data?.items?.length ? (
         <div className="w-max mx-auto">
           <Pagination
             currentPage={data.meta.currentPage}
@@ -135,6 +188,8 @@ export default function ContractsListTable() {
             totalPages={data?.meta.totalPages ?? 0}
           />
         </div>
+      ) : (
+        <></>
       )}
     </div>
   );

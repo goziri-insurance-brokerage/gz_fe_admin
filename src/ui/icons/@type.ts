@@ -38,7 +38,6 @@ export enum ICONS {
   Support = "Support",
   TickSquareFilled = "TickSquareFilled",
   TwoUsers = "TwoUsers",
-  User = "User",
   Warning = "Warning",
   Work = "Work",
 

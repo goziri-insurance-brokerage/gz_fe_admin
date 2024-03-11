@@ -11,4 +11,14 @@ export function middleware(req: NextRequest) {
   return NextResponse.next();
 }
 
-export const config = { matcher: ["/", "/users"] };
+export const config = {
+  matcher: [
+    "/",
+    "/admin/:path*",
+    "/contracts/:path*",
+    "/hcp/:path*",
+    "/hmo/:path*",
+    "/orgs/:path*",
+    "/users/:path*",
+  ],
+};

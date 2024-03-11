@@ -1,9 +1,9 @@
-import ContractsListTable from "@/components/main/contracts/contracts-list-table";
+import ContractsList from "@/components/main/contracts/contracts-list";
 
 export default function Page() {
   return (
     <main className="overflow-hidden">
-      <ContractsListTable />
+      <ContractsList />
     </main>
   );
 }

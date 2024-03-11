@@ -12,6 +12,9 @@ import { FetchHmoListParams } from "@/@Types/hmo.interface";
 
 import {
   Input,
+  MobileTable,
+  MobileTableItem,
+  MobileTableRow,
   Pagination,
   Table,
   TableBody,
@@ -107,9 +110,39 @@ export default function HmoList() {
             ))}
           </TableBody>
         </Table>
+
+        {/* Mobile Table */}
+        <MobileTable
+          className="sm:hidden"
+          isLoading={!data}
+          noData={{
+            component: <NoDataFound />,
+            condition: !data?.items.length,
+          }}
+        >
+          {data?.items.map((d, i) => (
+            <MobileTableRow key={i}>
+              <MobileTableItem heading={HMO_TABLE_HEADERS[0]}>
+                {d.name}
+              </MobileTableItem>
+              <MobileTableItem heading={HMO_TABLE_HEADERS[1]}>
+                {d.address.state}
+              </MobileTableItem>
+              <MobileTableItem heading={HMO_TABLE_HEADERS[2]}>
+                {d.address.lga}
+              </MobileTableItem>
+              <MobileTableItem heading={HMO_TABLE_HEADERS[3]}>
+                {d.reg_number}
+              </MobileTableItem>
+              <MobileTableItem heading={HMO_TABLE_HEADERS[4]}>
+                {formatDate(d.created_at)}
+              </MobileTableItem>
+            </MobileTableRow>
+          ))}
+        </MobileTable>
       </div>
 
-      {data?.items?.length && (
+      {data?.items?.length ? (
         <div className="w-max mx-auto">
           <Pagination
             currentPage={data.meta.currentPage}
@@ -119,6 +152,8 @@ export default function HmoList() {
             totalPages={data?.meta.totalPages ?? 0}
           />
         </div>
+      ) : (
+        <></>
       )}
     </div>
   );

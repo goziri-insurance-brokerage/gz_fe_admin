@@ -68,7 +68,7 @@ export default function Header() {
                     alt="Profile Image"
                   />
                 ) : (
-                  <Icon type={ICONS.AddUser} size={18} color="#005AFF" />
+                  <Icon type={ICONS.Profile} size={18} color="#005AFF" />
                 )}
               </div>
             </div>

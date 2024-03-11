@@ -51,17 +51,10 @@ body {
   @apply px-4 md:px-10;
 }
 
-.table-scroll-bar::-webkit-scrollbar {
+.custom-scroll-bar::-webkit-scrollbar {
   @apply w-1 h-1 rounded-full bg-grey-light;
 }
-.table-scroll-bar::-webkit-scrollbar-thumb {
-  @apply rounded-full bg-grey-light_active;
-}
-
-.page-scroll-bar::-webkit-scrollbar {
-  @apply w-1 h-1 rounded-full bg-grey-light;
-}
-.page-scroll-bar::-webkit-scrollbar-thumb {
+.custom-scroll-bar::-webkit-scrollbar-thumb {
   @apply rounded-full bg-grey-light_active;
 }
 

@@ -23,7 +23,7 @@ export function Button({
   const buttonType = type ? type : "button";
 
   // Default Class
-  const defaultClass = ` grid grid-flow-col py-3 px-3 gap-10 items-center text-sm rounded-[4px] capitalize text-nowrap font-semibold border transition-all active:bg-blue-darker ${
+  const defaultClass = ` grid grid-flow-col py-3 px-3 gap-10 items-center text-sm rounded-[4px] capitalize text-nowrap font-semibold transition-all active:bg-blue-darker ${
     color === "primary"
       ? "hover:bg-blue-dark_hover hover:text-white"
       : color === "secondary" && "hover:bg-red-dark_hover hover:text-white"
@@ -33,13 +33,14 @@ export function Button({
   const variantClass =
     variant === "contained"
       ? color === "primary"
-        ? "border-blue-normal bg-blue-normal text-white"
-        : color === "secondary" && "border-red-normal bg-red-normal text-white"
+        ? "border border-blue-normal bg-blue-normal text-white"
+        : color === "secondary" &&
+          "border border-red-normal bg-red-normal text-white"
       : variant === "outlined"
       ? color === "primary"
-        ? "bg-blue-light border-blue-normal text-blue-normal"
+        ? "bg-blue-light border border-blue-normal text-blue-normal"
         : color === "secondary" &&
-          "bg-red-light border-red-normal text-red-normal"
+          "bg-red-light border border-red-normal text-red-normal"
       : color === "primary"
       ? "text-blue-normal"
       : color === "secondary" && "text-red-normal";

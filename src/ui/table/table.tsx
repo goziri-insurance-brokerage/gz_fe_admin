@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext } from "react";
+import { Loader, Loaders } from "..";
 
 interface Props {
   children: React.ReactNode;
@@ -12,28 +13,21 @@ interface Props {
   };
 }
 
-const initialState: {
-  isLoading: boolean;
-  noData: {
-    component: JSX.Element;
-    condition: boolean;
-  };
-} = {
-  isLoading: false,
-  noData: {
-    component: <></>,
-    condition: false,
-  },
-};
-
-export const TableContext = createContext(initialState);
-
 export function Table({ children, className, isLoading, noData }: Props) {
   return (
-    <TableContext.Provider value={{ isLoading, noData }}>
-      <div
-        className={`overflow-y-scroll relative table-scroll-bar pr-3 ${className}`}
-      >
+    <div
+      className={`overflow-y-scroll relative custom-scroll-bar pr-3 ${className}`}
+    >
+      {isLoading ? (
+        <div className="grid content-center justify-items-center w-full h-full gap-3">
+          <Loader type={Loaders.RotatingLines} size={60} />
+          <p className="text-center text-lg">loading ...</p>
+        </div>
+      ) : noData.condition ? (
+        <div className="grid content-center justify-items-center w-full h-full gap-3">
+          {noData?.component}
+        </div>
+      ) : (
         <table
           className={`w-full text-sm ${
             (isLoading || noData.condition) && "h-full"
@@ -41,7 +35,7 @@ export function Table({ children, className, isLoading, noData }: Props) {
         >
           {children}
         </table>
-      </div>
-    </TableContext.Provider>
+      )}
+    </div>
   );
 }
