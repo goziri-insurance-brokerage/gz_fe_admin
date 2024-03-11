@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 export default function LoginForm() {
   const router = useRouter();
   const { callToast } = useToast();
-  const [login] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
 
   const handleFormSubmit = async (formData: Record<string, string>) => {
     const { password, identifier: identifier_value } = formData;
@@ -69,7 +69,9 @@ export default function LoginForm() {
         className="mt-5"
         color="primary"
         type="submit"
-        variant="contained"
+        variant="outlined"
+        isLoading={isLoading}
+        disabled={isLoading}
       >
         Login
       </Button>

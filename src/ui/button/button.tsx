@@ -1,37 +1,44 @@
 import React from "react";
+import { Loader, Loaders } from "..";
 
 interface Props {
   children: React.ReactNode;
-  color: "primary" | "secondary";
-  onClick?: () => void;
-  disabled?: boolean;
   className?: string;
+  color: "primary" | "secondary";
+  disabled?: boolean;
+  isLoading?: boolean;
+  onClick?: () => void;
   type?: "submit" | "reset" | "button";
   variant?: "contained" | "outlined";
 }
 
 export function Button({
   children,
+  className,
+  color,
   disabled,
+  isLoading,
   onClick,
   type,
-  className,
   variant,
-  color,
 }: Props) {
   // Button Type
   const buttonType = type ? type : "button";
 
   // Default Class
-  const defaultClass = ` grid grid-flow-col py-3 px-3 gap-10 items-center text-sm rounded-[4px] capitalize text-nowrap font-semibold transition-all active:bg-blue-darker ${
-    color === "primary"
+  const defaultClass =
+    "py-3 px-3 text-sm rounded-[4px] capitalize text-nowrap font-semibold transition-all";
+
+  // Hover Effects Class
+  const hoverEffectsClass =
+    !isLoading && color === "primary"
       ? "hover:bg-blue-dark_hover hover:text-white"
-      : color === "secondary" && "hover:bg-red-dark_hover hover:text-white"
-  }`;
+      : color === "secondary" && "hover:bg-red-dark_hover hover:text-white";
 
   // Variant Class
   const variantClass =
-    variant === "contained"
+    !isLoading &&
+    (variant === "contained"
       ? color === "primary"
         ? "border border-blue-normal bg-blue-normal text-white"
         : color === "secondary" &&
@@ -43,18 +50,31 @@ export function Button({
           "bg-red-light border border-red-normal text-red-normal"
       : color === "primary"
       ? "text-blue-normal"
-      : color === "secondary" && "text-red-normal";
+      : color === "secondary" && "text-red-normal");
 
-  // DisabledClass
-  const disabledClass = disabled && "bg-grey-light text-[#9C9C9C]";
+  // Disabled Class
+  const disabledClass =
+    disabled && !isLoading && "bg-grey-light text-[#9C9C9C]";
+
+  // isLoading Class
+  const isLoadingClass =
+    isLoading && "border-none bg-blue-light text-blue-normal";
 
   return (
     <button
       type={buttonType}
       onClick={onClick}
-      className={`${className} ${defaultClass} ${variantClass} ${disabledClass}`}
+      className={`${className} ${defaultClass} ${variantClass} ${disabledClass} ${isLoadingClass} ${hoverEffectsClass}`}
+      disabled={disabled}
     >
-      {children}
+      <span
+        className={`grid grid-flow-col w-max gap-3 items-center mx-auto ${
+          isLoading && "pr-5"
+        }`}
+      >
+        {isLoading && <Loader type={Loaders.RotatingLines} size={20} />}
+        {children}
+      </span>
     </button>
   );
 }
