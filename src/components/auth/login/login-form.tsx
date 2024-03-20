@@ -69,7 +69,7 @@ export default function LoginForm() {
         className="mt-5"
         color="primary"
         type="submit"
-        variant="outlined"
+        variant="contained"
         isLoading={isLoading}
         disabled={isLoading}
       >

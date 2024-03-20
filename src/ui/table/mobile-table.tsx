@@ -18,7 +18,7 @@ export function MobileTable({ children, className, isLoading, noData }: Props) {
       {isLoading ? (
         <div className="grid content-center justify-items-center w-full h-full gap-3">
           <Loader type={Loaders.RotatingLines} size={40} />
-          <p className="text-center">loading ...</p>
+          <p className="text-center">loading...</p>
         </div>
       ) : noData?.condition ? (
         <div className="grid content-center justify-items-center w-full h-full">

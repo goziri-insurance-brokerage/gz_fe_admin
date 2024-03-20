@@ -21,7 +21,7 @@ export function Table({ children, className, isLoading, noData }: Props) {
       {isLoading ? (
         <div className="grid content-center justify-items-center w-full h-full gap-3">
           <Loader type={Loaders.RotatingLines} size={60} />
-          <p className="text-center text-lg">loading ...</p>
+          <p className="text-center text-lg">loading...</p>
         </div>
       ) : noData.condition ? (
         <div className="grid content-center justify-items-center w-full h-full gap-3">
