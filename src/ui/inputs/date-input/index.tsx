@@ -1,8 +1,10 @@
-import React, { useEffect, useMemo, useState } from "react";
+"use client";
+
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Icon } from "../../icons/_index";
 import { ICONS } from "../../icons/@type";
 
-interface DateInputProps {
+export interface DateInputProps {
   datePickerPosition?: "TOP" | "BOTTOM";
   placeholder?: string;
   label: string;
@@ -13,6 +15,7 @@ interface DateInputProps {
     month: number;
     day: number;
   };
+  required?: boolean;
 }
 
 const currentYear = new Date().getFullYear();
@@ -50,6 +53,7 @@ export default function DateInput({
   name,
   onChange,
   placeholder,
+  required,
 }: DateInputProps) {
   const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
   const [showDatePickerMonth, setShowDatePickerMonth] =
@@ -58,6 +62,17 @@ export default function DateInput({
   const [year, setYear] = useState<number>(currentYear);
   const [month, setMonth] = useState<number>(currentMonth);
   const [day, setDay] = useState<number>(0);
+  const [onInvalid, setOnInvalid] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (day !== 0) {
+      setOnInvalid(false);
+    }
+  }, [day]);
+
+  const handleOnInvalid = (e: any) => {
+    setOnInvalid(true);
+  };
 
   const inputValue = useMemo(() => {
     const val = `${month + 1 < 10 ? 0 : ""}${month + 1}-${
@@ -66,7 +81,7 @@ export default function DateInput({
     const inputVal = `${day < 10 ? 0 : ""}${day} - ${month + 1 < 10 ? 0 : ""}${
       month + 1
     } - ${year}`;
-    day && onChange && onChange?.(val);
+    day && onChange && onChange(val);
 
     if (!day) return "";
 
@@ -142,31 +157,51 @@ export default function DateInput({
     setYear(parseInt(e.currentTarget.innerHTML));
     setShowDatePickerYear(false);
   };
+  let dateRef = useRef<any>();
+
+  useEffect(() => {
+    let handleDatePickerToggle = (e: any) => {
+      if (!dateRef.current.contains(e.target)) {
+        setShowDatePicker(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleDatePickerToggle);
+    return () => {
+      document.removeEventListener("mousedown", handleDatePickerToggle);
+    };
+  });
 
   return (
-    <div className="grid gap-2">
+    <div className="grid gap-2" ref={dateRef}>
       <label className={`cursor-pointer text-[#242424] text-sm font-bold`}>
-        {label}
+        {label} {required && "*"}
       </label>
 
       <div className="relative w-full">
         <div
-          className={`grid grid-cols-[1fr_auto] gap-10 items-center border rounded-[4px] border-grey-light_inactive py-3 px-3`}
+          className={`grid grid-cols-[1fr_auto] gap-10 items-center border rounded-[4px] border-grey-light_inactive py-3 px-3 cursor-pointer`}
+          onClick={() => setShowDatePicker(!showDatePicker)}
         >
           <input
             className={`text-sm placeholder:text-[#9C9C9C] font-semibold outline-none relative bg-transparent`}
-            name={name}
             placeholder={placeholder}
             type={"text"}
             value={inputValue}
             readOnly
           />
 
-          <button
-            onClick={() => setShowDatePicker(!showDatePicker)}
-            className="cursor-pointer"
-            type="button"
-          >
+          <input
+            className="hidden"
+            type="text"
+            name={name}
+            onInvalid={handleOnInvalid}
+            defaultValue={inputValue}
+            required={required}
+            placeholder={placeholder}
+          />
+
+          <button className="cursor-pointer" type="button">
             <Icon type={ICONS.Calendar} size={20} color="#9C9C9C" />
           </button>
         </div>
@@ -204,7 +239,7 @@ export default function DateInput({
 
           {/* Month */}
           <div
-            className={`absolute top-0 left-0 w-full max-h-0 overflow-hidden z-50 overflow-y-scroll text-sm grid grid-cols-2 gap-4 bg-white transition-all table-scroll-bar ${
+            className={`absolute top-0 left-0 w-full max-h-0 overflow-hidden z-50 overflow-y-scroll text-sm grid grid-cols-2 gap-4 bg-white transition-all custom-scroll-bar ${
               showDatePickerMonth
                 ? "p-4 max-h-full border border-grey-light_inactive"
                 : ""
@@ -228,7 +263,7 @@ export default function DateInput({
 
           {/* Year */}
           <div
-            className={`absolute top-0 left-0 w-full max-h-0 overflow-hidden overflow-y-scroll z-50 text-sm grid grid-cols-4 gap-4 bg-white transition-all table-scroll-bar ${
+            className={`absolute top-0 left-0 w-full max-h-0 overflow-hidden overflow-y-scroll z-50 text-sm grid grid-cols-4 gap-4 bg-white transition-all custom-scroll-bar ${
               showDatePickerYear
                 ? "p-4 max-h-full border border-grey-light_inactive"
                 : ""
@@ -321,6 +356,13 @@ export default function DateInput({
           </div>
         </div>
       </div>
+
+      {onInvalid && (
+        <div className="grid grid-flow-col w-max gap-1">
+          <Icon type={ICONS.InfoSquare} size={15} color="#ff5f15" />
+          <p className="text-orange-normal text-xs">{label} is required.</p>
+        </div>
+      )}
     </div>
   );
 }

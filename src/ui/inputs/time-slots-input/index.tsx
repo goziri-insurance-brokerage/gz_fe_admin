@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Icon } from "../../icons/_index";
 import { ICONS } from "../../icons/@type";
 
-interface TimeSlotsInputProps {
+export interface TimeSlotsInputProps {
   label: string;
   name: string;
   required?: boolean;
@@ -24,6 +24,12 @@ export default function TimeSlotsInput({
     setOnInvalid(true);
   };
 
+  useEffect(() => {
+    if (currentSlot !== "") {
+      setOnInvalid(false);
+    }
+  }, [currentSlot]);
+
   return (
     <div className="grid gap-2">
       <label className={`cursor-pointer text-[#242424] font-semibold text-sm`}>
@@ -35,7 +41,7 @@ export default function TimeSlotsInput({
         name={name}
         onInvalid={handleOnInvalid}
         type="text"
-        value={currentSlot}
+        defaultValue={currentSlot}
         required={required}
       />
 

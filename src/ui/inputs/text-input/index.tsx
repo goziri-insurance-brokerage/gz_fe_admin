@@ -47,9 +47,7 @@ export function TextInput({
       {onInValid && (
         <div className="grid grid-flow-col w-max gap-1">
           <Icon type={ICONS.Warning} size={15} color="#ff5f15" />
-          <p className="text-orange-normal text-xs">
-            Please {label} is required.
-          </p>
+          <p className="text-orange-normal text-xs">{label} is required.</p>
         </div>
       )}
     </div>

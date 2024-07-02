@@ -4,6 +4,8 @@ import { PolicyContractItemProps } from "./types";
 import { loadFile } from "@/utils/file";
 import { CheckBoxInput } from "../check-box-input";
 import { formatDate } from "@/utils/date.utils";
+import { Icon } from "@/ui/icons/_index";
+import { ICONS } from "@/ui/icons/@type";
 
 export default function PolicyContractItem({
   contract,
@@ -12,23 +14,31 @@ export default function PolicyContractItem({
   onClick,
 }: PolicyContractItemProps) {
   return (
-    <button
+    <div
       className={`grid grid-cols-[auto_auto_1fr_auto] w-full items-center gap-3 py-3 cursor-pointer text-left ${
         index > 0 && "border-t border-grey-light_hover"
       }`}
-      onClick={() => onClick(contract)}
-      type="button"
     >
-      <CheckBoxInput value={isSelected} onChangeCheckBoxInputValue={() => ""} />
+      <CheckBoxInput
+        value={isSelected}
+        onChangeCheckBoxInputValue={() => onClick(contract)}
+      />
 
-      <div className="relative w-8 rounded-full overflow-hidden">
-        <Image
-          src={loadFile(contract.user.photo_uri)}
-          width={1000}
-          height={1000}
-          alt="User Image"
-        />
-      </div>
+      {contract.user.photo_uri ? (
+        <div className="relative w-8 rounded-full overflow-hidden">
+          <Image
+            src={loadFile(contract.user.photo_uri)}
+            width={1000}
+            height={1000}
+            alt="User Image"
+          />
+        </div>
+      ) : (
+        <div className="relative w-8 h-8 rounded-full bg-neutral-100 grid items-center justify-center">
+          <Icon type={ICONS.Profile} size={20} color="blue" />
+        </div>
+      )}
+
       <div>
         <p className="text-sm font-semibold">
           {contract.user.first_name} {contract.user.last_name}
@@ -38,6 +48,6 @@ export default function PolicyContractItem({
         </p>
       </div>
       <p className="text-xs">Valid till {formatDate(contract.end_date)}</p>
-    </button>
+    </div>
   );
 }

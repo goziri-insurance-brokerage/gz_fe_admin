@@ -1,11 +1,13 @@
-import React, { useRef, useState } from "react";
+"use client";
+
+import React, { useEffect, useRef, useState } from "react";
 import { Icon } from "../../icons/_index";
 import { ICONS } from "../../icons/@type";
 import PolicyContractItem from "./policy-contract-item";
 import {
   PolicyContractLookup,
   PolicyContractsIdentifiers,
-  SelectPolicyContractInputProps,
+  SelectPolicyContractsInputProps,
 } from "./types";
 import { normalizePolicyContractsIdentifiersEnum } from "./utils";
 import SelectedPolicyContractItem from "./selected-policy-contract-item";
@@ -15,7 +17,7 @@ export default function SelectPolicyContractInput({
   name,
   onChange,
   required,
-}: SelectPolicyContractInputProps) {
+}: SelectPolicyContractsInputProps) {
   const [onInValid, setOnInvalid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [policyContracts, setPolicyContracts] = useState([]);
@@ -70,9 +72,24 @@ export default function SelectPolicyContractInput({
   const handleOnInvalid = (e: any) => {
     setOnInvalid(true);
   };
+  let policyContractRef = useRef<any>();
+
+  useEffect(() => {
+    let handlePolicyContractToggle = (e: any) => {
+      if (!policyContractRef.current.contains(e.target)) {
+        setShowPolicyContracts(false);
+        setShowIdentifiers(false);
+        console.log(policyContractRef.current);
+      }
+    };
+    document.addEventListener("mousedown", handlePolicyContractToggle);
+    return () => {
+      document.removeEventListener("mousedown", handlePolicyContractToggle);
+    };
+  });
 
   return (
-    <div className="grid gap-1">
+    <div className="grid gap-1" ref={policyContractRef}>
       <SelectedPolicyContractItem contract={selectedPolicyContract} />
       <div className="border border-grey-light_inactive rounded-md grid grid-cols-[auto_1fr_auto] items-center gap-5 p-1 pr-3 relative">
         <div className="relative w-max">
@@ -89,7 +106,12 @@ export default function SelectPolicyContractInput({
               <Icon type={ICONS.ArrowDown} size={20} color="#9C9C9C" />
             )}
           </div>
-
+          {showIdentifiers && (
+            <span
+              onClick={handleIdentifierToggle}
+              className="fixed top-0 left-0 w-full h-screen bg-transparent"
+            ></span>
+          )}
           <div
             className={`absolute w-full top-full mt-2 z-50 bg-white border-grey-light_inactive rounded-md  overflow-hidden transition-all shadow-[0_0_10px_-5px_rgba(0,0,0,.3)] ${
               showIdentifiers ? "border max-h-[1000px]" : "max-h-0"
@@ -137,13 +159,14 @@ export default function SelectPolicyContractInput({
         />
 
         <input
-          className="hidden"
-          id=""
+          id={name}
           type="text"
+          className="hidden"
           name={name}
+          placeholder="Policy Contract"
           onInvalid={handleOnInvalid}
           required={required}
-          value={selectedPolicyContract?.id || ""}
+          defaultValue={selectedPolicyContract?.id || ""}
         />
 
         {isLoading ? (

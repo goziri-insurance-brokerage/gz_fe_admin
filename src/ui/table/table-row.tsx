@@ -7,7 +7,12 @@ interface Props {
 
 export function TableRow({ children, onClick }: Props) {
   return (
-    <tr onClick={() => onClick?.()} className={`${"cursor-pointer"}`}>
+    <tr
+      onClick={() => onClick?.()}
+      className={`${
+        onClick && "cursor-pointer"
+      } transition-all hover:bg-[#EBEBEB]`}
+    >
       {children}
     </tr>
   );

@@ -2,6 +2,7 @@
 
 // Buttons
 export { Button } from "./button/button";
+export { LogoutButton } from "./button/logout-button";
 
 // Card
 export { DashboardStatsCard } from "./card/dashboard-stats-card/dashboard-stats-card";
