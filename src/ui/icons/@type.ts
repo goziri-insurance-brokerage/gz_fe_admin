@@ -27,6 +27,7 @@ export enum ICONS {
   Filter = "Filter",
   Hamburger = "Hamburger",
   InfoSquare = "InfoSquare",
+  Logout = "Logout",
   Minus = "Minus",
   ThreeUsers = "ThreeUsers",
   Plus = "Plus",

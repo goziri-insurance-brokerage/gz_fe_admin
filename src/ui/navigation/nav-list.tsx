@@ -26,7 +26,7 @@ export default function NavList({
 
   return (
     <nav className={`grid ${className}`}>
-      {navigations.map((item, i) => {
+      {navigations?.map((item, i) => {
         return (
           <Link
             key={i}

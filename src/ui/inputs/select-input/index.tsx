@@ -3,8 +3,9 @@
 import React, { useState } from "react";
 import { Icon } from "../../icons/_index";
 import { ICONS } from "../../icons/@type";
+import { normalizeEnum } from "@/utils/formatter.utils";
 
-interface Props {
+export interface SelectInputProps {
   label?: string;
   placeholder?: string;
   name: string;
@@ -18,7 +19,7 @@ export function SelectInput({
   name,
   options,
   required,
-}: Props) {
+}: SelectInputProps) {
   const [showOptions, setShowOptions] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
   const [onInValid, setOnInvalid] = useState(false);
@@ -48,14 +49,15 @@ export function SelectInput({
 
       <div className="relative">
         <div
-          className={`grid grid-cols-[1fr_auto] gap-10 items-center border rounded-[4px] border-grey-light_inactive py-3 px-3`}
+          className={`grid grid-cols-[1fr_auto] gap-10 items-center border rounded-[4px] border-grey-light_inactive py-3 px-3 cursor-pointer`}
+          onClick={handleShowOptions}
         >
           <input
             className={`text-sm placeholder:text-[#9C9C9C] font-semibold outline-none relative bg-transparent`}
             placeholder={placeholder}
             readOnly
             type={"text"}
-            // value={normalizeEnum(selectedOption)}
+            value={normalizeEnum(selectedOption)}
           />
 
           <input
@@ -63,11 +65,12 @@ export function SelectInput({
             type="text"
             name={name}
             onInvalid={handleOnInvalid}
-            value={selectedOption}
+            defaultValue={selectedOption}
             required={required}
+            placeholder={placeholder}
           />
 
-          <div onClick={handleShowOptions} className="cursor-pointer">
+          <div className="cursor-pointer">
             {showOptions ? (
               <span>
                 <Icon type={ICONS.ArrowUp} size={20} color="#9C9C9C" />
@@ -88,7 +91,7 @@ export function SelectInput({
           ></span>
         )}
         <ul
-          className={`w-full top-full absolute rounded-[4px] max-h-0 overflow-hidden bg-white z-50 transition-all shadow-[0_0_10px_-5px_rgba(0,0,0,.3)] ${
+          className={`w-full top-full absolute rounded-[4px] max-h-0 overflow-y-scroll custom-scroll-bar bg-white z-50 transition-all shadow-[0_0_10px_-5px_rgba(0,0,0,.3)] ${
             showOptions ? "mt-4 max-h-96 border border-grey-light_inactive" : ""
           }`}
         >
@@ -100,7 +103,7 @@ export function SelectInput({
               }`}
               onClick={() => handleSelectOption(option)}
             >
-              {/* {normalizeEnum(option)} */}
+              {normalizeEnum(option)}
             </li>
           ))}
         </ul>

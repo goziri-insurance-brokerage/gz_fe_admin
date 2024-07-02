@@ -11,6 +11,7 @@ interface Props {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   name?: string;
   required?: boolean;
+  acceptNegativeValue?: boolean;
 }
 
 export function NumberInput({
@@ -20,12 +21,34 @@ export function NumberInput({
   id,
   name,
   required,
+  acceptNegativeValue = true,
 }: Props) {
   const [onInValid, setOnInvalid] = useState(false);
+  const [isValid, setIsValid] = useState(true);
+  const [value, setValue] = useState("");
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange?.(e);
-    setOnInvalid(false);
+    const inputValue = e.target.value;
+    const isValidNumberRegex = /^-?\d+(\.\d+)?([eE][+-]?\d+)?$/;
+
+    const isNotEmptyAndNotNegative =
+      inputValue !== "" && parseFloat(inputValue) >= 0;
+    if (isValidNumberRegex.test(inputValue) || inputValue === "") {
+      if (!acceptNegativeValue && inputValue.startsWith("-")) {
+        setIsValid(false);
+        setOnInvalid(true);
+      } else {
+        setIsValid(true);
+        setOnInvalid(false);
+      }
+      setValue(inputValue);
+      onChange?.(e);
+    } else {
+      setOnInvalid(true);
+    }
+    if (!isNotEmptyAndNotNegative) {
+      setOnInvalid(false); // If the input is empty or negative, clear the required error
+    }
   };
 
   const handleOnInvalid = () => {
@@ -55,8 +78,16 @@ export function NumberInput({
       {onInValid && (
         <div className="grid grid-flow-col w-max gap-1">
           <Icon type={ICONS.Warning} size={15} color="#ff5f15" />
+          <p className="text-orange-normal text-xs">{label} is required.</p>
+        </div>
+      )}
+
+      {/* Invalid Number Error Message */}
+      {!acceptNegativeValue && !isValid && (
+        <div className="grid grid-flow-col w-max gap-1">
+          <Icon type={ICONS.Warning} size={15} color="#ff5f15" />
           <p className="text-orange-normal text-xs">
-            Please {label} is required.
+            {label} must be a non-negative number.
           </p>
         </div>
       )}

@@ -33,7 +33,7 @@ export function Button({
   const hoverEffectsClass =
     !isLoading && color === "primary"
       ? "hover:bg-blue-dark_hover hover:text-white"
-      : color === "secondary" && "hover:bg-red-dark_hover hover:text-white";
+      : color === "secondary" && "hover:bg-red-light_hover ";
 
   // Variant Class
   const variantClass =
@@ -46,8 +46,7 @@ export function Button({
       : variant === "outlined"
       ? color === "primary"
         ? "bg-blue-light border border-blue-normal text-blue-normal"
-        : color === "secondary" &&
-          "bg-red-light border border-red-normal text-red-normal"
+        : color === "secondary" && "bg-red-light border text-red-normal"
       : color === "primary"
       ? "text-blue-normal"
       : color === "secondary" && "text-red-normal");

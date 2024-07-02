@@ -30,7 +30,7 @@ interface PolicyProduct {
   category: string;
 }
 
-export interface SelectPolicyContractInputProps {
+export interface SelectPolicyContractsInputProps {
   delay: number;
   name: string;
   onChange: (
