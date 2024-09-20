@@ -81,6 +81,12 @@ export function SelectInput({
         </div>
 
         {/* Options */}
+        {showOptions && (
+          <span
+            onClick={handleShowOptions}
+            className="fixed top-0 left-0 w-full h-screen bg-transparent"
+          ></span>
+        )}
         <ul
           className={`w-full top-full absolute rounded-[4px] max-h-0 overflow-hidden bg-white z-50 transition-all shadow-[0_0_10px_-5px_rgba(0,0,0,.3)] ${
             showOptions ? "mt-4 max-h-96 border border-grey-light_inactive" : ""
