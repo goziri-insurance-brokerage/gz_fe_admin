@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import { Button, ICONS, Icon, Logo } from "..";
 import NavList from "./nav-list";
+import { LogoutButton } from "../button/logout-button";
+import { useRouter } from "next/navigation";
 
 interface NavigationProps {
   navigations: {
@@ -13,10 +15,20 @@ interface NavigationProps {
 }
 
 export function Navigation({ navigations }: NavigationProps) {
+  const router = useRouter();
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const handleCollapse = () => {
     setIsCollapsed(!isCollapsed);
+  };
+
+  const handleLogout = () => {
+    setIsLoggingOut(true);
+
+    setTimeout(() => {
+      router.push("/login");
+    }, 3000);
   };
 
   return (
@@ -43,6 +55,11 @@ export function Navigation({ navigations }: NavigationProps) {
         className="overflow-y-auto page-scroll-bar pr-3 h-full content-start"
         navigations={navigations}
       />
+
+      <LogoutButton loading={isLoggingOut} onClick={handleLogout}>
+        <Icon type={ICONS.Logout} color="#EF0627" size={20} />
+        <span>Logout</span>
+      </LogoutButton>
     </div>
   );
 }

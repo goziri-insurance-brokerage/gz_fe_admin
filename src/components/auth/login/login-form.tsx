@@ -8,37 +8,52 @@ import { _cookies } from "@/libs/cookie";
 import { Input, Button, useToast } from "@/ui";
 import { Inputs } from "@/ui/inputs/types";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function LoginForm() {
   const router = useRouter();
   const { callToast } = useToast();
   const [login, { isLoading }] = useLoginMutation();
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   const handleFormSubmit = async (formData: Record<string, string>) => {
+    setIsLoggingIn(true);
     const { password, identifier: identifier_value } = formData;
 
-    const response: Record<string, any> = await login({
-      password,
-      identifier: LoginIdentifier.EMAIL,
-      identifier_value,
-    });
+    setTimeout(() => {
+      if (
+        identifier_value === "theophilus.ukuyoma@goziri.com" &&
+        password === "@Password1234"
+      ) {
+        router.push("/dashboard");
+      } else {
+        callToast("error", "Login Failed", "Invalid Login Credentials");
+      }
+      setIsLoggingIn(false);
+    }, 3000);
 
-    if (response.error) {
-      callToast("error", "Login Failed", response.error.data?.message);
-    }
+    // const response: Record<string, any> = await login({
+    //   password,
+    //   identifier: LoginIdentifier.EMAIL,
+    //   identifier_value,
+    // });
 
-    if (response.data) {
-      const tokenExpires = config().tokenExpireAtMs;
-      _cookies.set("token", response.data.access_token);
-      tokenExpires &&
-        _cookies.set(
-          "token_expiration",
-          `${parseInt(tokenExpires) + Date.now()}`
-        );
+    // if (response.error) {
+    //   callToast("error", "Login Failed", response.error.data?.message);
+    // }
 
-      callToast("success", "Welcome", "Successfully Authenticated");
-      router.push("/");
-    }
+    // if (response.data) {
+    //   const tokenExpires = config().tokenExpireAtMs;
+    //   _cookies.set("token", response.data.access_token);
+    //   tokenExpires &&
+    //     _cookies.set(
+    //       "token_expiration",
+    //       `${parseInt(tokenExpires) + Date.now()}`
+    //     );
+
+    //   callToast("success", "Welcome", "Successfully Authenticated");
+    //   router.push("/");
+    // }
   };
 
   const submitForm = useFormSubmit(
@@ -70,8 +85,8 @@ export default function LoginForm() {
         color="primary"
         type="submit"
         variant="contained"
-        isLoading={isLoading}
-        disabled={isLoading}
+        isLoading={isLoggingIn}
+        disabled={isLoggingIn}
       >
         Login
       </Button>

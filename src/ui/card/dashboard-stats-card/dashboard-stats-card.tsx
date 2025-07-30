@@ -25,7 +25,7 @@ export function DashboardStatsCard({ title, value, color, icon }: Props) {
 
       <div className="grid gap-1">
         <p className="text-sm font-semibold">Total {title}</p>
-        <p className="text-xl font-bold">{value}</p>
+        <p className="text-xl font-bold">{value.toLocaleString("en-US")}</p>
       </div>
 
       <span className="absolute bottom-0 right-0">

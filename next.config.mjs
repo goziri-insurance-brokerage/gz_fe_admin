@@ -7,11 +7,11 @@ const nextConfig = {
         destination: "/users",
         permanent: false,
       },
-      {
-        source: "/dashboard",
-        destination: "/users",
-        permanent: false,
-      },
+      // {
+      //   source: "/dashboard",
+      //   destination: "/users",
+      //   permanent: false,
+      // },
     ];
   },
   env: {

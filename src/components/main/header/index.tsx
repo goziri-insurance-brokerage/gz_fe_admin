@@ -39,7 +39,7 @@ export default function Header() {
         <span className="lg:hidden">
           <LogoIcon size={38} />
         </span>
-        <h1 className="text-lg font-bold capitalize lg:hidden">{path}</h1>
+        <h1 className="text-lg font-bold capitalize ">{path}</h1>
       </div>
 
       <div className="grid grid-flow-col w-max items-center gap-3">
@@ -57,6 +57,12 @@ export default function Header() {
           </div>
 
           <div className="grid grid-flow-col gap-3 items-center">
+            <h1 className="border-r-2 border-[#A6A6A6] pr-3">
+              Goziri Admin Portal
+            </h1>
+            <span>
+              <Icon type={ICONS.Bell} size={20} color={"#005AFF"} />
+            </span>
             <div className="grid-flow-col w-max gap-3 items-center border border-[#D9D9D9] rounded-full p-1">
               <div className="bg-grey-light rounded-full overflow-hidden relative w-7 h-7 grid place-content-center">
                 {adminProfile?.photo_uri ? (
