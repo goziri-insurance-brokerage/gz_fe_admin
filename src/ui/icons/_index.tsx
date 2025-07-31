@@ -40,6 +40,7 @@ import { DuotonePaper } from "./duotone-icons/duotone-paper";
 import { DuotoneProfile } from "./duotone-icons/duotone-profile";
 import { DuotoneUsers } from "./duotone-icons/duotone-users";
 import { DuotoneRevenue } from "./duotone-icons/duotone-revenue";
+import { Logout } from "./logout";
 
 interface Props extends IconProps {
   type: ICONS;
@@ -109,6 +110,9 @@ export function Icon({ type, color, size }: Props) {
 
     case ICONS.InfoSquare:
       return <InfoSquare color={color} size={size} />;
+
+    case ICONS.Logout:
+      return <Logout color={color} size={size} />;
 
     case ICONS.Minus:
       return <Minus color={color} size={size} />;

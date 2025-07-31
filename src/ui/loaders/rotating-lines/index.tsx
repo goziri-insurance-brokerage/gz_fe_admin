@@ -2,7 +2,7 @@ import React from "react";
 import { LoaderProps } from "../@types";
 import "./keyframes.css";
 
-export default function RotatingLines({ size }: LoaderProps) {
+export default function RotatingLines({ size, color }: LoaderProps) {
   return (
     <svg
       width={size}
@@ -17,7 +17,7 @@ export default function RotatingLines({ size }: LoaderProps) {
         width="2.18182"
         height="8.72727"
         rx="1.09091"
-        fill="#005AFF"
+        fill={color || "#005AFF"}
       />
       <rect
         x="11.8516"
@@ -25,7 +25,7 @@ export default function RotatingLines({ size }: LoaderProps) {
         width="2.18182"
         height="8.72727"
         rx="1.09091"
-        fill="#005AFF"
+        fill={color || "#005AFF"}
         fillOpacity="0.7"
       />
       <rect
@@ -35,7 +35,7 @@ export default function RotatingLines({ size }: LoaderProps) {
         height="8.72727"
         rx="1.09091"
         transform="rotate(45 9.4375 13.9609)"
-        fill="#005AFF"
+        fill={color || "#005AFF"}
         fillOpacity="0.8"
       />
       <rect
@@ -45,7 +45,7 @@ export default function RotatingLines({ size }: LoaderProps) {
         height="8.72727"
         rx="1.09091"
         transform="rotate(45 21 2.61719)"
-        fill="#005AFF"
+        fill={color || "#005AFF"}
         fillOpacity="0.1"
       />
       <rect
@@ -55,7 +55,7 @@ export default function RotatingLines({ size }: LoaderProps) {
         height="8.72727"
         rx="1.09091"
         transform="rotate(90 23.625 11.125)"
-        fill="#005AFF"
+        fill={color || "#005AFF"}
         fillOpacity="0.3"
       />
       <rect
@@ -65,7 +65,7 @@ export default function RotatingLines({ size }: LoaderProps) {
         height="8.72727"
         rx="1.09091"
         transform="rotate(-45 14.9062 15.7031)"
-        fill="#005AFF"
+        fill={color || "#005AFF"}
         fillOpacity="0.5"
       />
       <rect
@@ -75,7 +75,7 @@ export default function RotatingLines({ size }: LoaderProps) {
         height="8.72727"
         rx="1.09091"
         transform="rotate(-45 3.11719 4.36719)"
-        fill="#005AFF"
+        fill={color || "#005AFF"}
         fillOpacity="0.96"
       />
       <rect
@@ -85,7 +85,7 @@ export default function RotatingLines({ size }: LoaderProps) {
         height="8.72727"
         rx="1.09091"
         transform="rotate(90 10.0938 11.125)"
-        fill="#005AFF"
+        fill={color || "#005AFF"}
         fillOpacity="0.9"
       />
     </svg>

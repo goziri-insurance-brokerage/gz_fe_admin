@@ -1,11 +1,11 @@
 import { ICONS } from "../ui";
 
 export const NAVIGATIONS = [
-  // {
-  //   title: "Dashboard",
-  //   url: "/dashboard",
-  //   icon: ICONS.Dashboard,
-  // },
+  {
+    title: "Dashboard",
+    url: "/dashboard",
+    icon: ICONS.Dashboard,
+  },
   {
     title: "Users",
     url: "/users",
